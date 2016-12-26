@@ -6,6 +6,11 @@ import an.qt.bluetoothSerial 1.0
 //蓝牙界面
 Item {
     id: viewBluetooth
+    Rectangle {
+        anchors.fill: parent
+        color: "white"
+    }
+
     //接收内容
     Label {
         id: labelReceive

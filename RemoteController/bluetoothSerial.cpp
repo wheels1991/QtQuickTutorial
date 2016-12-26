@@ -25,6 +25,7 @@ void bluetoothSerial::scan()
 {
     bluetoothDeviceInfoList.clear();
     discoveryAgent->start();
+    emit consoleInfo("Start scan");
     qDebug() << "Scan bluetooth device";
 }
 

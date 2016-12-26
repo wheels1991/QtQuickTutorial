@@ -5,10 +5,15 @@ import "../image"
 //陀螺仪界面
 Item {
     id: viewPose
+    Rectangle {
+        anchors.fill: parent
+        color: "white"
+    }
 
     Column {
         anchors.left: parent.left
         anchors.top: title.bottom
+        spacing: 10
         Text {
             id: rollText
             text: qsTr("Roll: ")
@@ -28,8 +33,8 @@ Item {
             var roll = calcRoll(accel.reading.x, accel.reading.y, accel.reading.z)
             var pitch = calcPitch(accel.reading.x, accel.reading.y, accel.reading.z)
             accel.poseChanged(roll, pitch)
-            bubble.x = mainWindow.width / 2 + mainWindow.width / 180 * roll
-            bubble.y = mainWindow.height / 2 - mainWindow.height / 180 * pitch
+            bubble.x = parent.width / 2 + parent.width / 180 * roll
+            bubble.y = parent.height / 2 - parent.height / 180 * pitch
         }
         function calcPitch(x,y,z) {
             return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795);

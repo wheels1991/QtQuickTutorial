@@ -7,8 +7,7 @@ ApplicationWindow {
     visible: true
     width: 480
     height: 640
-    title: qsTr("Hello World")
-    id: mainWindow
+    id: root
 
     //姿态识别模块
     Loader {
@@ -46,8 +45,6 @@ ApplicationWindow {
                 onClicked: {
                     viewBluetooth.visible = true
                     viewPose.visible = false
-                    buttonBluetooth.focus = true
-                    buttonPose.focus = false
                 }
             }
             ToolButton {
@@ -56,8 +53,8 @@ ApplicationWindow {
                 onClicked: {
                     viewBluetooth.visible = false
                     viewPose.visible = true
-                    buttonBluetooth.focus = false
-                    buttonPose.focus = true
+//                    buttonBluetooth.highlighted = false
+//                    buttonPose.highlighted = true
                 }
             }
         }

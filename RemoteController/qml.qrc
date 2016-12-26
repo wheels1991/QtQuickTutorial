@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>content/accel.qml</file>
+        <file>content/myBluetooth.qml</file>
+        <file>image/bubble.jpg</file>
+        <file>image/logo.png</file>
+    </qresource>
+</RCC>

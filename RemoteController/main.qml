@@ -11,20 +11,22 @@ ApplicationWindow {
     height: 640
     id: root
 
+
     TabView {
         anchors.fill: parent
         style: touchStyle
         tabPosition: Qt.BottomEdge
         Tab {
             title: "蓝牙"
+            id: viewBluetooth
             source: "content/myBluetooth.qml"
         }
         Tab {
             title: "陀螺仪"
-            source: "content/accel.qml"
+            id: viewPose
+            source: "content/pose.qml"
         }
     }
-
     Component {
         id: touchStyle
         TabViewStyle {
@@ -33,7 +35,7 @@ ApplicationWindow {
             frame: Item { }
             tab: Item {
                 implicitWidth: control.width/control.count
-                implicitHeight: 40
+                implicitHeight: (control.width > control.height ? control.height : control.width)/control.count / 4
                 BorderImage {
                     anchors.fill: parent
                     border.bottom: 8
@@ -43,7 +45,7 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         color: "white"
                         text: styleData.title.toUpperCase()
-                        font.pixelSize: 20
+                        font.pixelSize: (control.width > control.height ? control.height : control.width)/control.count / 8
                     }
                     Rectangle {
                         visible: index > 0
@@ -57,4 +59,5 @@ ApplicationWindow {
             }
         }
     }
+
 }

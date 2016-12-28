@@ -2,6 +2,7 @@
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import an.qt.bluetoothSerial 1.0
+import QtQuick.Layouts 1.3
 
 //蓝牙界面
 Item {
@@ -11,13 +12,15 @@ Item {
         color: "white"
     }
 
-    Column {
+    ColumnLayout {
         anchors.fill: parent
         spacing: 10
         //接收内容
         GroupBox {
             title: "接收数据"
-            width: parent.width
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            height: viewBluetooth.height / 3
             TextArea {
                 anchors.fill: parent
                 id: receivedText
@@ -27,7 +30,7 @@ Item {
         //发送内容
         GroupBox {
             title: "发送数据"
-            width: parent.width
+            Layout.fillWidth: true
             TextField {
                 anchors.fill: parent
                 id: sendText
@@ -37,11 +40,10 @@ Item {
         //组织蓝牙设备列表
         GroupBox{
             title: "蓝牙列表"
-            width: parent.width
+            Layout.fillWidth: true
             ComboBox {
                 id: bluetoothComboBox
                 anchors.fill: parent
-//                currentIndex: 2
                 model: ListModel {
                     id: bluetoothList
         //            ListElement { text: "Banana" }
@@ -51,9 +53,12 @@ Item {
                 }
             }
         }
+//        Item { Layout.fillHeight: true }
 
         //蓝牙相关按键
-        Row {
+        RowLayout {
+            Layout.fillWidth: true
+
             id: rowLayout
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: (parent.width - 4 * send.width) / 3
@@ -89,6 +94,17 @@ Item {
                 }
             }
         }
+    }
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: myBluetoothSerial.connected()
+        onTriggered: {
+            receivedText.append("Timer test");
+//            receivedText.append(viewPose.accel.roll);
+        }
+
     }
 
     BluetoothSerial {

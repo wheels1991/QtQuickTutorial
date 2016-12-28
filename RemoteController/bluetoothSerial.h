@@ -10,9 +10,11 @@
 class bluetoothSerial : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool connected READ connected)
 public:
     bluetoothSerial();
     ~bluetoothSerial();
+    bool connected() {return isConnected;}
 
 
 signals:
@@ -38,6 +40,7 @@ private:
     unsigned char comBuffer[15];
     unsigned int  comCount;
     QString comStr;
+    bool isConnected = false;
 };
 
 #endif // BLUETOOTHSERIAL_H

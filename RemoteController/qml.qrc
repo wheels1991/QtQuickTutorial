@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>content/accel.qml</file>
         <file>content/myBluetooth.qml</file>
         <file>image/bubble.jpg</file>
         <file>image/logo.png</file>
@@ -10,5 +9,6 @@
         <file>image/textinput.png</file>
         <file>image/button_default.png</file>
         <file>image/button_pressed.png</file>
+        <file>content/pose.qml</file>
     </qresource>
 </RCC>

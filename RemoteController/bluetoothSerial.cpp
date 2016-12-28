@@ -57,6 +57,7 @@ void bluetoothSerial::send(QString data)
 void bluetoothSerial::disconnect()
 {
     socket->disconnectFromService();
+    isConnected = false;
 }
 
 void bluetoothSerial::addBlueToothDevicesToList(const QBluetoothDeviceInfo &info)
@@ -77,6 +78,7 @@ void bluetoothSerial::connectToDevice(int index)
     QBluetoothDeviceInfo info = bluetoothDeviceInfoList[index];
 //    QMessageBox::information(this,tr("Info"),tr("The device is connecting..."));
     socket->connectToService(info.address(), QBluetoothUuid(serviceUuid) ,QIODevice::ReadWrite);
+    isConnected = true;
 }
 
 void bluetoothSerial::bluetoothConnectedEvent()

@@ -1,7 +1,9 @@
 ﻿import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import "content"
+import QtQuick.Controls.Styles 1.1
+
+import "content" as Content
 
 ApplicationWindow {
     visible: true
@@ -9,52 +11,48 @@ ApplicationWindow {
     height: 640
     id: root
 
-    //姿态识别模块
-    Loader {
-        id: viewPose
-        visible: false
-        anchors.bottom: control.top
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottomMargin: 5
-        source: "content/accel.qml"
-    }
-    //蓝牙模块
-    Loader {
-        id: viewBluetooth
-        visible: true
-        anchors.bottom: control.top
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottomMargin: 5
-        source: "content/myBluetooth.qml"
+    TabView {
+        anchors.fill: parent
+        style: touchStyle
+        tabPosition: Qt.BottomEdge
+        Tab {
+            title: "蓝牙"
+            source: "content/myBluetooth.qml"
+        }
+        Tab {
+            title: "陀螺仪"
+            source: "content/accel.qml"
+        }
     }
 
-    ToolBar {
-        id: control
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        Row{
-            //向导
-            ToolButton {
-                id: buttonBluetooth
-                text: qsTr("蓝牙")
-                onClicked: {
-                    viewBluetooth.visible = true
-                    viewPose.visible = false
-                }
-            }
-            ToolButton {
-                id: buttonPose
-                text:qsTr("陀螺仪")
-                onClicked: {
-                    viewBluetooth.visible = false
-                    viewPose.visible = true
-//                    buttonBluetooth.highlighted = false
-//                    buttonPose.highlighted = true
+    Component {
+        id: touchStyle
+        TabViewStyle {
+            tabsAlignment: Qt.AlignVCenter
+            tabOverlap: 0
+            frame: Item { }
+            tab: Item {
+                implicitWidth: control.width/control.count
+                implicitHeight: 40
+                BorderImage {
+                    anchors.fill: parent
+                    border.bottom: 8
+                    border.top: 8
+                    source: styleData.selected ? "image/tab_selected.png":"../image/tabs_standard.png"
+                    Text {
+                        anchors.centerIn: parent
+                        color: "white"
+                        text: styleData.title.toUpperCase()
+                        font.pixelSize: 20
+                    }
+                    Rectangle {
+                        visible: index > 0
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.margins: 10
+                        width:1
+                        color: "#3a3a3a"
+                    }
                 }
             }
         }

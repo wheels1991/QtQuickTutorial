@@ -1,5 +1,7 @@
 ﻿import QtQuick 2.0
 import QtSensors 5.3
+import QtQuick.Controls 1.4
+
 import "../image"
 
 //陀螺仪界面
@@ -9,20 +11,27 @@ Item {
         anchors.fill: parent
         color: "white"
     }
-
-    Column {
-        anchors.left: parent.left
-        anchors.top: title.bottom
-        spacing: 10
-        Text {
-            id: rollText
-            text: qsTr("Roll: ")
-        }
-        Text {
-            id: pitchText
-            text: qsTr("Pitch: ")
+    GroupBox {
+        title: "姿态"
+        anchors.top: parent.top
+        width: parent.width
+        height: 5 * rollText.height + 10
+        Column {
+            id: position
+            anchors.left: parent.left
+            anchors.top: parent.top
+            spacing: 10
+            Text {
+                id: rollText
+                text: qsTr("Roll: ")
+            }
+            Text {
+                id: pitchText
+                text: qsTr("Pitch: ")
+            }
         }
     }
+
 
     Accelerometer {
         id: accel
@@ -55,8 +64,8 @@ Item {
         id: bubble
         source: "../image/bubble.jpg"
         smooth: true
-        property real centerX: mainWindow.width / 2
-        property real centerY: mainWindow.height / 2
+        property real centerX: parent.width / 2
+        property real centerY: parent.height / 2
         property real bubbleCenter: bubble.width / 2
         x: centerX - bubbleCenter
         y: centerY - bubbleCenter

@@ -5,5 +5,10 @@
         <file>content/myBluetooth.qml</file>
         <file>image/bubble.jpg</file>
         <file>image/logo.png</file>
+        <file>image/tab_selected.png</file>
+        <file>image/tabs_standard.png</file>
+        <file>image/textinput.png</file>
+        <file>image/button_default.png</file>
+        <file>image/button_pressed.png</file>
     </qresource>
 </RCC>

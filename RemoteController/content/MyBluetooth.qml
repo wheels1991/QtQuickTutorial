@@ -6,21 +6,23 @@ import QtQuick.Layouts 1.3
 
 //蓝牙界面
 Item {
-    id: viewBluetooth
-    Rectangle {
-        anchors.fill: parent
-        color: "white"
+    id: page    //对于外部想要访问的数据或功能，只能通过property和信号signal或者函数function可以交互
+    property alias receivedText: receivedText       //属性别名
+    property alias bluetoothSerialPort: bluetoothSerialPort
+    property alias isConnected: bluetoothSerialPort.connected
+    function send(data) {
+        receivedText.append(data);
+        bluetoothSerialPort.send(data);
     }
-
     ColumnLayout {
         anchors.fill: parent
         spacing: 10
         //接收内容
         GroupBox {
             title: "接收数据"
-            Layout.fillHeight: true
+            Layout.fillHeight: true                                             //该语句可以实现该控件在高度上的自动调整，铺满窗口
             Layout.fillWidth: true
-            height: viewBluetooth.height / 3
+            height: page.height / 3
             TextArea {
                 anchors.fill: parent
                 id: receivedText
@@ -49,11 +51,10 @@ Item {
         //            ListElement { text: "Banana" }
                 }
                 onActivated: {
-                    myBluetoothSerial.connectToDevice(index)
+                    bluetoothSerialPort.connectToDevice(index)
                 }
             }
         }
-//        Item { Layout.fillHeight: true }
 
         //蓝牙相关按键
         RowLayout {
@@ -67,7 +68,7 @@ Item {
                 text: qsTr("发送")
                 onClicked: {
                     receivedText.append(sendText.text)
-                    myBluetoothSerial.send(sendText.text)
+                    bluetoothSerialPort.send(sendText.text)
                 }
             }
             Button {
@@ -82,7 +83,7 @@ Item {
                 id:scan
                 text: qsTr("扫描")
                 onClicked: {
-                    myBluetoothSerial.scan()
+                    bluetoothSerialPort.scan()
                     bluetoothList.clear()
                 }
             }
@@ -90,37 +91,26 @@ Item {
                 id: disConnect
                 text: qsTr("断开")
                 onClicked:  {
-                    myBluetoothSerial.disconnect()
+                    bluetoothSerialPort.disconnect()
                 }
             }
         }
     }
 
-    Timer {
-        interval: 1000
-        repeat: true
-        running: myBluetoothSerial.connected()
-        onTriggered: {
-            receivedText.append("Timer test");
-//            receivedText.append(viewPose.accel.roll);
-        }
-
-    }
-
     BluetoothSerial {
-        id: myBluetoothSerial
+        id: bluetoothSerialPort
     }
 
     //添加蓝牙设备
     Connections {
-        target: myBluetoothSerial
+        target: bluetoothSerialPort
         onAddDevice: {
             bluetoothList.append({"text": info})
         }
     }
     //打印调试信息
     Connections {
-        target: myBluetoothSerial
+        target: bluetoothSerialPort
         onConsoleInfo:{
             receivedText.append(info)
         }

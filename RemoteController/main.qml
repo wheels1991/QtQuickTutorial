@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
 
-import "content" as Content
+import "content"
 
 ApplicationWindow {
     visible: true
@@ -11,22 +11,51 @@ ApplicationWindow {
     height: 640
     id: root
 
-
     TabView {
         anchors.fill: parent
         style: touchStyle
         tabPosition: Qt.BottomEdge
         Tab {
             title: "蓝牙"
-            id: viewBluetooth
-            source: "content/myBluetooth.qml"
+            id: tabBluetooth
+            sourceComponent: MyBluetooth {}
         }
         Tab {
             title: "陀螺仪"
-            id: viewPose
-            source: "content/pose.qml"
+            id:tabPoseSensor
+            sourceComponent: PoseSensor {}
         }
     }
+//以下方法无法通过Tab中声明的对象的ID进行访问
+//    TabView {
+//        anchors.fill: parent
+//        style: touchStyle
+//        tabPosition: Qt.BottomEdge
+//        Tab {
+//            title: "蓝牙"
+//            MyBluetooth {
+//                id: pageBluetooth
+//            }
+//        }
+//        Tab {
+//            title: "陀螺仪"
+//            PoseSensor {
+//                id: pagePoseSensor
+//            }
+//        }
+//    }
+
+    Timer {
+        interval: 1000
+        repeat: true
+        running: true//tabBluetooth.item.bluetoothSerialPort.isConnected
+        onTriggered: {
+            tabBluetooth.item.receivedText.append("\nisConnected: " + tabBluetooth.item.isConnected)
+            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll)
+            tabBluetooth.item.receivedText.append("Pitch: " + tabPoseSensor.item.pitch)
+        }
+    }
+
     Component {
         id: touchStyle
         TabViewStyle {

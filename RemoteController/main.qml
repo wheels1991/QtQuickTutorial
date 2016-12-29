@@ -15,6 +15,7 @@ ApplicationWindow {
         anchors.fill: parent
         style: touchStyle
         tabPosition: Qt.BottomEdge
+        currentIndex: 1
         Tab {
             title: "蓝牙"
             id: tabBluetooth
@@ -25,34 +26,27 @@ ApplicationWindow {
             id:tabPoseSensor
             sourceComponent: PoseSensor {}
         }
+        Tab {
+            title: "平台"
+            id:tabStewart
+            sourceComponent: StewartController {}
+        }
     }
-//以下方法无法通过Tab中声明的对象的ID进行访问
-//    TabView {
-//        anchors.fill: parent
-//        style: touchStyle
-//        tabPosition: Qt.BottomEdge
-//        Tab {
-//            title: "蓝牙"
-//            MyBluetooth {
-//                id: pageBluetooth
-//            }
-//        }
-//        Tab {
-//            title: "陀螺仪"
-//            PoseSensor {
-//                id: pagePoseSensor
-//            }
-//        }
-//    }
 
     Timer {
         interval: 1000
         repeat: true
         running: true//tabBluetooth.item.bluetoothSerialPort.isConnected
         onTriggered: {
-            tabBluetooth.item.receivedText.append("\nisConnected: " + tabBluetooth.item.isConnected)
-            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll)
-            tabBluetooth.item.receivedText.append("Pitch: " + tabPoseSensor.item.pitch)
+            tabBluetooth.item.receivedText.append("isConnected: " + tabBluetooth.item.isConnected);
+            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll +
+                                                 " Pitch: " + tabPoseSensor.item.pitch);
+            tabBluetooth.item.receivedText.append("Px: " + tabStewart.item.px +
+                                                 " Py: " + tabStewart.item.py +
+                                                 " Pz: " + tabStewart.item.pz +
+                                                 " Pa: " + tabStewart.item.pa +
+                                                 " Pb: " + tabStewart.item.pb +
+                                                 " Pc: " + tabStewart.item.pc);
         }
     }
 
@@ -64,7 +58,7 @@ ApplicationWindow {
             frame: Item { }
             tab: Item {
                 implicitWidth: control.width/control.count
-                implicitHeight: (control.width > control.height ? control.height : control.width)/control.count / 4
+                implicitHeight: (control.width > control.height ? control.height : control.width)/ 8
                 BorderImage {
                     anchors.fill: parent
                     border.bottom: 8
@@ -74,7 +68,7 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         color: "white"
                         text: styleData.title.toUpperCase()
-                        font.pixelSize: (control.width > control.height ? control.height : control.width)/control.count / 8
+                        font.pixelSize: (control.width > control.height ? control.height : control.width)/ 16
                     }
                     Rectangle {
                         visible: index > 0

@@ -22,7 +22,6 @@ Item {
             title: "接收数据"
             Layout.fillHeight: true                                             //该语句可以实现该控件在高度上的自动调整，铺满窗口
             Layout.fillWidth: true
-            height: page.height / 3
             TextArea {
                 anchors.fill: parent
                 id: receivedText

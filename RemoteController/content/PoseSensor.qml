@@ -57,8 +57,8 @@ Item {
         dataRate: 100
         active:true
         onReadingChanged: {
-            page.roll = calcRoll(accel.reading.x, accel.reading.y, accel.reading.z)
-            page.pitch = calcPitch(accel.reading.x, accel.reading.y, accel.reading.z)
+            page.roll = (calcRoll(accel.reading.x, accel.reading.y, accel.reading.z)).toFixed(2)    //toFixed(2)控制小数位置
+            page.pitch = (calcPitch(accel.reading.x, accel.reading.y, accel.reading.z)).toFixed(2)
             page.poseChanged(page.roll, page.pitch)
         }
         function calcPitch(x,y,z) {

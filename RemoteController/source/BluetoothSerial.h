@@ -7,13 +7,13 @@
 #include <qbluetoothlocaldevice.h>
 #include <qbluetoothsocket.h>
 
-class bluetoothSerial : public QObject
+class BluetoothSerial : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool connected READ connected)
 public:
-    bluetoothSerial();
-    ~bluetoothSerial();
+    BluetoothSerial();
+    ~BluetoothSerial();
     bool connected() {return isConnected;}
 
 

@@ -1,27 +1,27 @@
-﻿#include "bluetoothSerial.h"
+﻿#include "BluetoothSerial.h"
 #include <QMessageBox>
 
 static const QLatin1String serviceUuid("00001101-0000-1000-8000-00805F9B34FB");
 
-bluetoothSerial::bluetoothSerial()
+BluetoothSerial::BluetoothSerial()
 {
     discoveryAgent = new QBluetoothDeviceDiscoveryAgent();
     localDevice = new QBluetoothLocalDevice();
     socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
     connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
-            this, &bluetoothSerial::addBlueToothDevicesToList);
-    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &bluetoothSerial::finishScan);
-    connect(socket, &QIODevice::readyRead, this, &bluetoothSerial::read);
-    connect(socket, &QBluetoothSocket::connected, this, &bluetoothSerial::bluetoothConnectedEvent);
-    connect(socket, &QBluetoothSocket::disconnected, this, &bluetoothSerial::bluetoothDisconnectedEvent);
+            this, &BluetoothSerial::addBlueToothDevicesToList);
+    connect(discoveryAgent, &QBluetoothDeviceDiscoveryAgent::finished, this, &BluetoothSerial::finishScan);
+    connect(socket, &QIODevice::readyRead, this, &BluetoothSerial::read);
+    connect(socket, &QBluetoothSocket::connected, this, &BluetoothSerial::bluetoothConnectedEvent);
+    connect(socket, &QBluetoothSocket::disconnected, this, &BluetoothSerial::bluetoothDisconnectedEvent);
 }
 
-bluetoothSerial::~bluetoothSerial()
+BluetoothSerial::~BluetoothSerial()
 {
 
 }
 
-void bluetoothSerial::scan()
+void BluetoothSerial::scan()
 {
     bluetoothDeviceInfoList.clear();
     discoveryAgent->start();
@@ -29,7 +29,7 @@ void bluetoothSerial::scan()
     qDebug() << "Scan bluetooth device";
 }
 
-void bluetoothSerial::read()
+void BluetoothSerial::read()
 {
     QByteArray line = socket->readAll();
     QString strData = QString::fromStdString(line.toStdString());
@@ -43,7 +43,7 @@ void bluetoothSerial::read()
     }
 }
 
-void bluetoothSerial::send(QString data)
+void BluetoothSerial::send(QString data)
 {
 //    Q_UNUSED(data);
     qDebug() << "Send data by bluetooth device";
@@ -54,13 +54,13 @@ void bluetoothSerial::send(QString data)
     socket->write(data.toUtf8());
 }
 
-void bluetoothSerial::disconnect()
+void BluetoothSerial::disconnect()
 {
     socket->disconnectFromService();
     isConnected = false;
 }
 
-void bluetoothSerial::addBlueToothDevicesToList(const QBluetoothDeviceInfo &info)
+void BluetoothSerial::addBlueToothDevicesToList(const QBluetoothDeviceInfo &info)
 {
     bluetoothDeviceInfoList.append(info);
     QString label = QString("%1 %2").arg(info.address().toString()).arg(info.name());
@@ -69,7 +69,7 @@ void bluetoothSerial::addBlueToothDevicesToList(const QBluetoothDeviceInfo &info
     emit consoleInfo(QString("Find a new device %1").arg(label));
 }
 
-void bluetoothSerial::connectToDevice(int index)
+void BluetoothSerial::connectToDevice(int index)
 {
     qDebug() << "Connect to device: " << index;
     emit consoleInfo(QString("Connect to device %1").arg(index));
@@ -81,19 +81,19 @@ void bluetoothSerial::connectToDevice(int index)
     isConnected = true;
 }
 
-void bluetoothSerial::bluetoothConnectedEvent()
+void BluetoothSerial::bluetoothConnectedEvent()
 {
     emit consoleInfo("Succeed to connect");
 //    QMessageBox::information(this,tr("Info"),tr("successful connection!"));
 }
 
-void bluetoothSerial::bluetoothDisconnectedEvent()
+void BluetoothSerial::bluetoothDisconnectedEvent()
 {
     emit consoleInfo("Succeed to disconnect");
     //    QMessageBox::information(this,tr("Info"),tr("successful disconnection!"));
 }
 
-void bluetoothSerial::finishScan()
+void BluetoothSerial::finishScan()
 {
     emit consoleInfo("Finish scan");
 }

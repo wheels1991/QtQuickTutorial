@@ -7,7 +7,7 @@ CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 SOURCES += main.cpp \
-    bluetoothSerial.cpp
+    source/BluetoothSerial.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +31,4 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += \
-    bluetoothSerial.h
+    source/BluetoothSerial.h

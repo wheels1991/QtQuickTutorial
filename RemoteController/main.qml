@@ -38,18 +38,25 @@ ApplicationWindow {
         repeat: true
         running: true//tabBluetooth.item.bluetoothSerialPort.isConnected
         onTriggered: {
-            tabBluetooth.item.receivedText.append("isConnected: " + tabBluetooth.item.isConnected);
-            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll +
-                                                 " Pitch: " + tabPoseSensor.item.pitch);
-            tabBluetooth.item.receivedText.append("Px: " + tabStewart.item.px +
-                                                 " Py: " + tabStewart.item.py +
-                                                 " Pz: " + tabStewart.item.pz +
-                                                 " Pa: " + tabStewart.item.pa +
-                                                 " Pb: " + tabStewart.item.pb +
-                                                 " Pc: " + tabStewart.item.pc);
+//            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll +
+//                                                 " Pitch: " + tabPoseSensor.item.pitch);
+
+            tabBluetooth.item.receivedText.append("J0: " + tabPoseSensor.item.joint0 +
+                                                 " J1: " + tabPoseSensor.item.joint1 +
+                                                 " J2: " + tabPoseSensor.item.joint2 +
+                                                 " J3: " + tabPoseSensor.item.joint3 +
+                                                 " J4: " + tabPoseSensor.item.joint4 +
+                                                 " J5: " + tabPoseSensor.item.joint5);
+            tabBluetooth.item.receivedText.append("J0: " + tabStewart.item.joint0 +
+                                                 " J1: " + tabStewart.item.joint1 +
+                                                 " J2: " + tabStewart.item.joint2 +
+                                                 " J3: " + tabStewart.item.joint3 +
+                                                 " J4: " + tabStewart.item.joint4 +
+                                                 " J5: " + tabStewart.item.joint5);
         }
     }
 
+    //TabView的style
     Component {
         id: touchStyle
         TabViewStyle {

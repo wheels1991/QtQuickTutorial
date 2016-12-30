@@ -23,6 +23,7 @@ Item {
             Layout.fillHeight: true                                             //该语句可以实现该控件在高度上的自动调整，铺满窗口
             Layout.fillWidth: true
             TextArea {
+                enabled: false
                 anchors.fill: parent
                 id: receivedText
                 text: qsTr("This is received data")
@@ -65,6 +66,7 @@ Item {
             Button {
                 id: send
                 text: qsTr("发送")
+                style: buttonStype
                 onClicked: {
                     receivedText.append(sendText.text)
                     bluetoothSerialPort.send(sendText.text)
@@ -73,6 +75,7 @@ Item {
             Button {
                 id: clear
                 text: qsTr("清空")
+                style: buttonStype
                 onClicked: {
                     receivedText.text = ""
                     sendText.text = ""
@@ -81,6 +84,7 @@ Item {
             Button {
                 id:scan
                 text: qsTr("扫描")
+                style: buttonStype
                 onClicked: {
                     bluetoothSerialPort.scan()
                     bluetoothList.clear()
@@ -89,6 +93,7 @@ Item {
             Button {
                 id: disConnect
                 text: qsTr("断开")
+                style: buttonStype
                 onClicked:  {
                     bluetoothSerialPort.disconnect()
                 }
@@ -112,6 +117,21 @@ Item {
         target: bluetoothSerialPort
         onConsoleInfo:{
             receivedText.append(info)
+        }
+    }
+
+    Component {
+        id: buttonStype
+        ButtonStyle {
+            background: Rectangle {
+                implicitWidth: page.width / 5
+                implicitHeight:implicitWidth / 2
+                radius: control.height / 4
+                gradient: Gradient {
+                    GradientStop { position: 0 ; color: control.pressed ? "lightsteelblue" :"gray" }
+                    GradientStop { position: 1 ; color: control.pressed ? "lightsteelblue" :"gray" }
+                }
+            }
         }
     }
 }

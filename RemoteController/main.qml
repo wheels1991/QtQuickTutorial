@@ -19,6 +19,7 @@ ApplicationWindow {
         Tab {
             title: "蓝牙"
             id: tabBluetooth
+            focus: true
             sourceComponent: MyBluetooth {}
         }
         Tab {
@@ -63,28 +64,16 @@ ApplicationWindow {
             tabsAlignment: Qt.AlignVCenter
             tabOverlap: 0
             frame: Item { }
-            tab: Item {
-                implicitWidth: control.width/control.count
+            tab: Rectangle {
                 implicitHeight: (control.width > control.height ? control.height : control.width)/ 8
-                BorderImage {
-                    anchors.fill: parent
-                    border.bottom: 8
-                    border.top: 8
-                    source: styleData.selected ? "image/tab_selected.png":"../image/tabs_standard.png"
-                    Text {
-                        anchors.centerIn: parent
-                        color: "white"
-                        text: styleData.title.toUpperCase()
-                        font.pixelSize: (control.width > control.height ? control.height : control.width)/ 16
-                    }
-                    Rectangle {
-                        visible: index > 0
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.margins: 10
-                        width:1
-                        color: "#3a3a3a"
-                    }
+                implicitWidth: control.width/control.count
+                color: styleData.selected ? "lightsteelblue" :"steelblue"
+                Text {
+                    id: text
+                    anchors.centerIn: parent
+                    text: styleData.title
+                    color: styleData.selected ? "black" : "white"
+                    font.pixelSize: (control.width > control.height ? control.height : control.width)/ 16
                 }
             }
         }

@@ -42,15 +42,16 @@ Item {
                 Layout.fillWidth: true
                 Label {
                     id: labelID
-                    width: parent.width / 10
+                    width: parent.width * 0.2
                     text: label + v
                 }
                 Slider {
-                    width: parent.width * 0.9
+                    width: parent.width * 0.8
                     stepSize: 0.5
                     value: v
                     maximumValue: maxValue
                     minimumValue: minValue
+                    style: sliderStyle
                     onValueChanged: {
                         switch (index) {
                             case 0:
@@ -90,6 +91,33 @@ Item {
             joint3 = (j3).toFixed(2);
             joint4 = (j4).toFixed(2);
             joint5 = (j5).toFixed(2);
+        }
+    }
+    Component {
+        id: sliderStyle
+        SliderStyle {
+            groove: Item {
+                implicitWidth: control.width
+                Rectangle {
+                    height: width / 80
+                    width: parent.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: "gray"
+                    Rectangle {
+                        antialiasing: true
+                        color: "lightsteelblue"
+                        height: parent.height
+                        width: parent.width * (control.value - control.minimumValue) / (control.maximumValue - control.minimumValue)
+                    }
+                }
+            }
+            handle: Rectangle {
+                anchors.centerIn: parent
+                color: "steelblue"
+                implicitWidth: control.width / 15
+                implicitHeight: implicitWidth
+                radius: implicitWidth / 2
+            }
         }
     }
 }

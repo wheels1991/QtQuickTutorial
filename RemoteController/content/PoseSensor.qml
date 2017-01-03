@@ -38,7 +38,7 @@ Item {
         height: width
         style: circularGaugeStyle
         Text {
-            text: "横滚角"
+            text: qsTr("横滚角")
             anchors.horizontalCenter: parent.horizontalCenter
             y: parent.height * 0.6
             color: "Black"
@@ -59,7 +59,7 @@ Item {
         height: width
         style: circularGaugeStyle
         Text {
-            text: "俯仰角"
+            text: qsTr("俯仰角")
             anchors.horizontalCenter: parent.horizontalCenter
             y: parent.height * 0.6
             color: "Black"
@@ -81,16 +81,8 @@ Item {
                 implicitWidth: page.width / 20
                 implicitHeight:implicitWidth
                 radius: 3
-                border.color: control.activeFocus ? "lightsteelblue" : "gray"
-                border.width: 1
-                Rectangle {
-                    visible: control.checked
-                    color: "#555"
-                    border.color: "#333"
-                    radius: 1
-                    anchors.margins: 4
-                    anchors.fill: parent
-                }
+                color: control.checked ? "steelblue" : "white"
+                border.color: "black"
             }
             label: Text {
                 text: qsTr("控制使能")

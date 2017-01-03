@@ -19,7 +19,7 @@ Item {
         spacing: 10
         //接收内容
         GroupBox {
-            title: "接收数据"
+            title: qsTr("接收数据")
             Layout.fillHeight: true                                             //该语句可以实现该控件在高度上的自动调整，铺满窗口
             Layout.fillWidth: true
             TextArea {
@@ -31,7 +31,7 @@ Item {
         }
         //发送内容
         GroupBox {
-            title: "发送数据"
+            title: qsTr("发送数据")
             Layout.fillWidth: true
             TextField {
                 anchors.fill: parent
@@ -41,7 +41,7 @@ Item {
         }
         //组织蓝牙设备列表
         GroupBox{
-            title: "蓝牙列表"
+            title: qsTr("蓝牙列表")
             Layout.fillWidth: true
             ComboBox {
                 id: bluetoothComboBox
@@ -62,6 +62,8 @@ Item {
             focus: true
             Layout.fillWidth: true
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: page.height / 50
             spacing: (parent.width - 4 * send.width) / 3
             Button {
                 id: send
@@ -100,7 +102,9 @@ Item {
                 text: qsTr("断开")
                 style: buttonStype
                 onClicked:  {
+                    receivedText.append("Disconnect")
                     bluetoothSerialPort.disconnect()
+                    bluetoothComboBox.currentText = ""
                 }
             }
         }
@@ -129,12 +133,13 @@ Item {
         id: buttonStype
         ButtonStyle {
             background: Rectangle {
+                id: buttonField
                 implicitWidth: page.width / 5
                 implicitHeight:implicitWidth / 2
                 radius: control.height / 4
                 gradient: Gradient {
-                    GradientStop { position: 0 ; color: control.pressed ? "lightsteelblue" :"gray" }
-                    GradientStop { position: 1 ; color: control.pressed ? "lightsteelblue" :"gray" }
+                    GradientStop { position: 0 ; color: control.pressed ? "steelblue" : "lightsteelblue"}
+                    GradientStop { position: 1 ; color: control.pressed ? "steelblue" : "lightsteelblue"}
                 }
             }
         }

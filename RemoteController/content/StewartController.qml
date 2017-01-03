@@ -32,12 +32,12 @@ Item {
         anchors.fill: parent
         Repeater {
             model: ListModel {
-                ListElement { label: "X轴: "; maxValue: 50; minValue: -50; v: 0}
-                ListElement { label: "Y轴: "; maxValue: 50; minValue: -50; v: 0}
-                ListElement { label: "Z轴: "; maxValue: 300; minValue: 260; v: 278}
-                ListElement { label: "A轴: "; maxValue: 20; minValue: -20; v: 0}
-                ListElement { label: "B轴: "; maxValue: 20; minValue: -20; v: 0}
-                ListElement { label: "C轴: "; maxValue: 20; minValue: -20; v: 0}
+                ListElement { label: qsTr("X轴: "); maxValue: 50; minValue: -50; v: 0}
+                ListElement { label: qsTr("Y轴: "); maxValue: 50; minValue: -50; v: 0}
+                ListElement { label: qsTr("Z轴: "); maxValue: 300; minValue: 260; v: 278}
+                ListElement { label: qsTr("A轴: "); maxValue: 20; minValue: -20; v: 0}
+                ListElement { label: qsTr("B轴: "); maxValue: 20; minValue: -20; v: 0}
+                ListElement { label: qsTr("C轴: "); maxValue: 20; minValue: -20; v: 0}
             }
             Row {
                 Layout.fillWidth: true
@@ -93,16 +93,8 @@ Item {
                     implicitWidth: page.width / 20
                     implicitHeight:implicitWidth
                     radius: 3
-                    border.color: control.activeFocus ? "lightsteelblue" : "gray"
-                    border.width: 1
-                    Rectangle {
-                        visible: control.checked
-                        color: "#555"
-                        border.color: "#333"
-                        radius: 1
-                        anchors.margins: 4
-                        anchors.fill: parent
-                    }
+                    color: control.checked ? "steelblue" : "white"
+                    border.color: "black"
                 }
                 label: Text {
                     text: qsTr("控制使能")

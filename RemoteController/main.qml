@@ -17,18 +17,18 @@ ApplicationWindow {
         tabPosition: Qt.BottomEdge
         currentIndex: 1
         Tab {
-            title: "蓝牙"
+            title: qsTr("蓝牙")
             id: tabBluetooth
             focus: true
             sourceComponent: MyBluetooth {}
         }
         Tab {
-            title: "陀螺仪"
+            title: qsTr("陀螺仪")
             id:tabPoseSensor
             sourceComponent: PoseSensor {}
         }
         Tab {
-            title: "平台"
+            title: qsTr("平台")
             id:tabStewart
             sourceComponent: StewartController {}
         }

@@ -32,14 +32,12 @@ void BluetoothSerial::scan()
 void BluetoothSerial::read()
 {
     QByteArray line = socket->readAll();
-    QString strData = QString::fromStdString(line.toStdString());
+    QString stringData = QString::fromStdString(line.toStdString());
 //    QString strData = line.toHex();
-    comStr.append(strData);
-    qDebug() <<"rec data is: "<< comStr;
-    qDebug() <<"The comStr length is: " << comStr.length();
-    if(comStr.length() >= 0) {
-
-        comStr.clear();
+    qDebug() <<"Received data is: "<< stringData;
+    qDebug() <<"Received data's length is: " << stringData.length();
+    if(stringData.length() >= 0) {
+        stringData.clear();
     }
 }
 
@@ -47,10 +45,12 @@ void BluetoothSerial::send(QString data)
 {
 //    Q_UNUSED(data);
     qDebug() << "Send data by bluetooth device";
-    QByteArray arrayData;
-    QString s("Hello Windows!!!\nThis message is sended via bluetooth of android device!\n");
-    arrayData = s.toUtf8();
+//    QByteArray arrayData;
+//    QString s("Hello Windows!!!\nThis message is sended via bluetooth of android device!\n");
+//    arrayData = s.toUtf8();
 //    socket->write(arrayData);
+    qDebug() << "Data in QByteArray: " << data.toUtf8();
+    QByteArray utf8 = data.toUtf8();
     socket->write(data.toUtf8());
 }
 

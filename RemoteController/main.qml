@@ -41,19 +41,18 @@ ApplicationWindow {
         onTriggered: {
 //            tabBluetooth.item.receivedText.append("Roll: " + tabPoseSensor.item.roll +
 //                                                 " Pitch: " + tabPoseSensor.item.pitch);
-
-            tabBluetooth.item.receivedText.append("J0: " + tabPoseSensor.item.joint0 +
-                                                 " J1: " + tabPoseSensor.item.joint1 +
-                                                 " J2: " + tabPoseSensor.item.joint2 +
-                                                 " J3: " + tabPoseSensor.item.joint3 +
-                                                 " J4: " + tabPoseSensor.item.joint4 +
-                                                 " J5: " + tabPoseSensor.item.joint5);
-            tabBluetooth.item.receivedText.append("J0: " + tabStewart.item.joint0 +
-                                                 " J1: " + tabStewart.item.joint1 +
-                                                 " J2: " + tabStewart.item.joint2 +
-                                                 " J3: " + tabStewart.item.joint3 +
-                                                 " J4: " + tabStewart.item.joint4 +
-                                                 " J5: " + tabStewart.item.joint5);
+            tabBluetooth.item.receivedText.append("S#" + tabStewart.item.joint0 +
+                                                   "#" + tabStewart.item.joint1 +
+                                                   "#" + tabStewart.item.joint2 +
+                                                   "#" + tabStewart.item.joint3 +
+                                                   "#" + tabStewart.item.joint4 +
+                                                   "#" + tabStewart.item.joint5 + "#E");
+            tabBluetooth.item.receivedText.append("S#" + tabPoseSensor.item.joint0 +
+                                                   "#" + tabPoseSensor.item.joint1 +
+                                                   "#" + tabPoseSensor.item.joint2 +
+                                                   "#" + tabPoseSensor.item.joint3 +
+                                                   "#" + tabPoseSensor.item.joint4 +
+                                                   "#" + tabPoseSensor.item.joint5 + "#E");
         }
     }
 

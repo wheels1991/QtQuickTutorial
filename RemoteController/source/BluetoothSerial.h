@@ -39,7 +39,7 @@ private:
     QList<QBluetoothDeviceInfo> bluetoothDeviceInfoList;
     unsigned char comBuffer[15];
     unsigned int  comCount;
-    QString comStr;
+//    QString stringData;
     bool isConnected = false;
 };
 

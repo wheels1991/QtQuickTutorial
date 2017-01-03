@@ -6,6 +6,7 @@ import stewart.lib 1.1
 
 Item {
     id: page
+    property bool isEnable: checkBox.checked
     property double px: 0
     property double py: 0
     property double pz: 278
@@ -81,6 +82,35 @@ Item {
                 }
             }
         }
+        CheckBox {
+            id: checkBox
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: page.height / 20
+            anchors.left: parent.left
+            checked: false
+            style: CheckBoxStyle {
+                indicator: Rectangle {
+                    implicitWidth: page.width / 20
+                    implicitHeight:implicitWidth
+                    radius: 3
+                    border.color: control.activeFocus ? "lightsteelblue" : "gray"
+                    border.width: 1
+                    Rectangle {
+                        visible: control.checked
+                        color: "#555"
+                        border.color: "#333"
+                        radius: 1
+                        anchors.margins: 4
+                        anchors.fill: parent
+                    }
+                }
+                label: Text {
+                    text: qsTr("控制使能")
+                    font.pixelSize: page.width / 20
+                }
+            }
+        }
+
     }
     Connections {
         target: stewart

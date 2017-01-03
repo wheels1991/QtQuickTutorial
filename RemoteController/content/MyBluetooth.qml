@@ -23,7 +23,7 @@ Item {
             Layout.fillHeight: true                                             //该语句可以实现该控件在高度上的自动调整，铺满窗口
             Layout.fillWidth: true
             TextArea {
-                enabled: false
+                readOnly: true
                 anchors.fill: parent
                 id: receivedText
                 text: qsTr("This is received data")
@@ -58,18 +58,23 @@ Item {
 
         //蓝牙相关按键
         RowLayout {
-            Layout.fillWidth: true
-
             id: rowLayout
+            focus: true
+            Layout.fillWidth: true
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: (parent.width - 4 * send.width) / 3
             Button {
                 id: send
+                focus: true
                 text: qsTr("发送")
                 style: buttonStype
                 onClicked: {
-                    receivedText.append(sendText.text)
-                    bluetoothSerialPort.send(sendText.text)
+                    if (bluetoothSerialPort.connected) {
+                        bluetoothSerialPort.send(sendText.text);
+                        receivedText.append(sendText.text)
+                    } else {
+                        receivedText.append("No device connected: " + sendText.text)
+                    }
                 }
             }
             Button {

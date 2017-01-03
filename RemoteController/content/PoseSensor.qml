@@ -11,6 +11,7 @@ Item {
     //对于外部想要访问的数据或功能，只能通过property和信号signal或者函数function可以交互
     property double roll
     property double pitch
+    property bool isEnable: checkBox.checked
     signal poseChanged(double r, double p)
 
     property double poseZ: 278
@@ -66,6 +67,34 @@ Item {
         Behavior on value {
             NumberAnimation {
                 duration: 100
+            }
+        }
+    }
+    CheckBox {
+        id: checkBox
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: page.height / 20
+        anchors.left: parent.left
+        checked: false
+        style: CheckBoxStyle {
+            indicator: Rectangle {
+                implicitWidth: page.width / 20
+                implicitHeight:implicitWidth
+                radius: 3
+                border.color: control.activeFocus ? "lightsteelblue" : "gray"
+                border.width: 1
+                Rectangle {
+                    visible: control.checked
+                    color: "#555"
+                    border.color: "#333"
+                    radius: 1
+                    anchors.margins: 4
+                    anchors.fill: parent
+                }
+            }
+            label: Text {
+                text: qsTr("控制使能")
+                font.pixelSize: page.width / 20
             }
         }
     }
@@ -133,44 +162,6 @@ Item {
                 text: styleData.value
                 color: styleData.value < -20 || styleData.value > 20 ? "red" : "steelblue"
             }
-//            background: Item {
-//                Canvas {
-//                    anchors.fill: parent
-//                    onPaint: {
-//                        var ctx = getContext("2d");
-//                        var minWarningStartAngle = -180
-//                        var minWarningEndAngle = -90 - 20
-//                        ctx.reset();
-////                        paintBackground(ctx);
-
-//                        ctx.beginPath();
-//                        ctx.lineWidth = outerRadius * 0.02;
-//                        ctx.strokeStyle = "red";
-//                        ctx.arc(outerRadius, outerRadius,
-//                            // Start the line in from the decorations, and account for the width of the line itself.
-//                            outerRadius - tickmarkInset - ctx.lineWidth / 2,
-//                            degToRad(minWarningStartAngle),degToRad(minWarningEndAngle), false);
-//                        ctx.stroke();
-//                    }
-//                }
-//                Canvas {
-//                    anchors.fill: parent
-//                    onPaint: {
-//                        var ctx = getContext("2d");
-//                        var maxWarningStartAngle = -90 + 20
-//                        var maxWarningEndAngle = 0
-//                        ctx.reset();
-//                        ctx.beginPath();
-//                        ctx.lineWidth =outerRadius * 0.02;
-//                        ctx.strokeStyle = "red";
-//                        ctx.arc(outerRadius, outerRadius,
-//                                // Start the line in from the decorations, and account for the width of the line itself.
-//                                outerRadius - tickmarkInset - ctx.lineWidth / 2,
-//                                degToRad(maxWarningStartAngle), degToRad(maxWarningEndAngle), false);
-//                        ctx.stroke();
-//                    }
-//                }
-//            }
         }
     }
 }

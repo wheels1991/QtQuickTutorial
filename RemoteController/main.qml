@@ -2,6 +2,7 @@
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.1
+import stewart.lib 1.1
 
 import "content"
 
@@ -32,31 +33,61 @@ ApplicationWindow {
             id:tabStewart
             sourceComponent: StewartController {}
         }
+        Tab {
+            title: qsTr("设置")
+            id: tabSetup
+            sourceComponent: Setup {}
+        }
     }
 
+    //进行数据的计算
     Timer {
-        interval: 100
+        interval: 1000 / tabBluetooth.item.frequency
         repeat: true
         running: true//tabBluetooth.item.bluetoothSerialPort.isConnected
         onTriggered: {
             if (tabPoseSensor.item.isEnable) {
-                tabBluetooth.item.send("S#" + tabPoseSensor.item.joint0 +
-                                       "#" + tabPoseSensor.item.joint1 +
-                                       "#" + tabPoseSensor.item.joint2 +
-                                       "#" + tabPoseSensor.item.joint3 +
-                                       "#" + tabPoseSensor.item.joint4 +
-                                       "#" + tabPoseSensor.item.joint5 + "#E");
+                console.log("Into tabPose sensor")
+                stewart.setPos(0, 0, tabSetup.item.zCentralPos,
+                               tabPoseSensor.item.roll / 5,
+                               tabPoseSensor.item.pitch / 5, 0);
             } else if (tabStewart.item.isEnable) {
-                tabBluetooth.item.send("S#" + tabStewart.item.joint0 +
-                                       "#" + tabStewart.item.joint1 +
-                                       "#" + tabStewart.item.joint2 +
-                                       "#" + tabStewart.item.joint3 +
-                                       "#" + tabStewart.item.joint4 +
-                                       "#" + tabStewart.item.joint5 + "#E");
+                stewart.setPos(tabStewart.item.px,
+                               tabStewart.item.py,
+                               tabStewart.item.pz,
+                               tabStewart.item.pa,
+                               tabStewart.item.pb,
+                               tabStewart.item.pc);
             }
         }
     }
+    //处理平台尺寸参数的变化
+    Connections {
+        target: tabSetup.item
+        onParasChanged:{
+            stewart.setParas(tR, tI, bR, bI, aL, cH, lL, xyz, abc, zPos, type);
+            tabStewart.item.xyzRange = xyz;
+            tabStewart.item.abcRange = abc
+            tabStewart.item.zCentralPos= zPos;
 
+        }
+    }
+    //处理平台解算后的数据，将其通过蓝牙进行发送
+    Connections {
+        target: stewart
+        onJointsChanged: {
+            tabBluetooth.item.send("S#" + (j0).toFixed(2) +
+                                    "#" + (j1).toFixed(2) +
+                                    "#" + (j2).toFixed(2) +
+                                    "#" + (j3).toFixed(2) +
+                                    "#" + (j4).toFixed(2) +
+                                    "#" + (j5).toFixed(2));
+        }
+    }
+
+    Stewart {
+        id: stewart
+    }
     //TabView的style
     Component {
         id: tableStyle

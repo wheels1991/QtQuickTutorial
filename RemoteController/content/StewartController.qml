@@ -2,65 +2,87 @@
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
-import stewart.lib 1.1
 
 Item {
     id: page
     property bool isEnable: checkBox.checked
     property double px: 0
     property double py: 0
-    property double pz: 278
+    property double pz: 96.5
     property double pa: 0
     property double pb: 0
     property double pc: 0
+    property double xyzRange: 30
+    property double abcRange: 20
+    property double zCentralPos: 96.5
 
-    property double joint0: 0
-    property double joint1: 0
-    property double joint2: 0
-    property double joint3: 0
-    property double joint4: 0
-    property double joint5: 0
     signal poseChanged(double Px, double Py, double Pz,
                        double Pa, double Pb, double Pc)
-    signal jointsChanged(double j0, double j1, double j2,
-                         double j3, double j4, double j5)
-    Stewart {
-        id: stewart
-    }
 
     ColumnLayout {
         anchors.fill: parent
         Repeater {
             model: ListModel {
-<<<<<<< HEAD
-                ListElement { label: qsTr("X轴: "); maxValue: 30; minValue: -50; v: 0}
-                ListElement { label: qsTr("Y轴: "); maxValue: 30; minValue: -50; v: 0}
-                ListElement { label: qsTr("Z轴: "); maxValue: 120; minValue: 80; v: 96.5}
-                ListElement { label: qsTr("A轴: "); maxValue: 10; minValue: -10; v: 0}
-                ListElement { label: qsTr("B轴: "); maxValue: 10; minValue: -10; v: 0}
-                ListElement { label: qsTr("C轴: "); maxValue: 10; minValue: -10; v: 0}
-=======
-                ListElement { label: qsTr("X轴: "); maxValue: 50; minValue: -50; v: 0}
-                ListElement { label: qsTr("Y轴: "); maxValue: 50; minValue: -50; v: 0}
-                ListElement { label: qsTr("Z轴: "); maxValue: 300; minValue: 260; v: 278}
-                ListElement { label: qsTr("A轴: "); maxValue: 20; minValue: -20; v: 0}
-                ListElement { label: qsTr("B轴: "); maxValue: 20; minValue: -20; v: 0}
-                ListElement { label: qsTr("C轴: "); maxValue: 20; minValue: -20; v: 0}
->>>>>>> a04cf9f056051e07b1159f7e144dd8bffb0edd34
+                ListElement { label: qsTr("X轴: ")}
+                ListElement { label: qsTr("Y轴: ")}
+                ListElement { label: qsTr("Z轴: ")}
+                ListElement { label: qsTr("A轴: ")}
+                ListElement { label: qsTr("B轴: ")}
+                ListElement { label: qsTr("C轴: ")}
             }
             Row {
                 Layout.fillWidth: true
                 Label {
                     id: labelID
                     width: parent.width * 0.2
-                    text: label + v
+                    text: label + (slider.value).toFixed(1)
                 }
                 Slider {
+                    id: slider
                     width: parent.width * 0.8
-                    stepSize: 0.5
-                    value: v
-                    maximumValue: maxValue
-                    minimumValue: minValue
+                    stepSize: 0.2
+                    value: switch (index) {
+                           case 0 :
+                               return 0
+                           case 1:
+                               return 0
+                           case 2:
+                               return zCentralPos
+                           case 3:
+                               return 0
+                           case 4:
+                               return 0
+                           case 5:
+                               return 0
+                            }
+                    maximumValue:switch (index) {
+                                      case 0 :
+                                          return xyzRange
+                                      case 1:
+                                          return xyzRange
+                                      case 2:
+                                          return zCentralPos + xyzRange
+                                      case 3:
+                                          return abcRange
+                                      case 4:
+                                          return abcRange
+                                      case 5:
+                                          return abcRange
+                              }
+                    minimumValue:switch (index) {
+                                      case 0 :
+                                          return -xyzRange
+                                      case 1:
+                                          return -xyzRange
+                                      case 2:
+                                          return zCentralPos - xyzRange
+                                      case 3:
+                                          return -abcRange
+                                      case 4:
+                                          return -abcRange
+                                      case 5:
+                                          return -abcRange
+                                  }
                     style: sliderStyle
                     onValueChanged: {
                         switch (index) {
@@ -84,9 +106,7 @@ Item {
                                 break;
                         }
                         page.poseChanged(px, py, pz, pa, pb, pc)
-                        stewart.SetPos(px, py, pz, pa, pb, pc)
                         labelID.text = label + value                            //实时修改Label的显示值
-
                     }
                 }
             }
@@ -113,17 +133,7 @@ Item {
         }
 
     }
-    Connections {
-        target: stewart
-        onJointsChanged: {
-            joint0 = (j0).toFixed(2);
-            joint1 = (j1).toFixed(2);
-            joint2 = (j2).toFixed(2);
-            joint3 = (j3).toFixed(2);
-            joint4 = (j4).toFixed(2);
-            joint5 = (j5).toFixed(2);
-        }
-    }
+
     Component {
         id: sliderStyle
         SliderStyle {

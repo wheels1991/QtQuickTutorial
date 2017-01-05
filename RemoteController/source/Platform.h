@@ -20,13 +20,16 @@ signals:
     void jointsChanged(double j0, double j1, double j2, double j3, double j4, double j5);
 
 public slots:
-    void SetPos(double xp, double yp, double zp, double ap, double bp, double cp, Type type = LinkType);
-    void SetPos(QVector<double> pos, Type type = LinkType);
-    bool GetJoints(QVector<double> &joints);
+    void setPos(double xp, double yp, double zp, double ap, double bp, double cp, Type type = LinkType);
+    void setPos(QVector<double> pos, Type type = LinkType);
+    bool getJoints(QVector<double> &joints);
+    void setParas(double tR, double tI, double bR, double bI,
+                  double aL, double cH, double lL, double xyz,
+                  double abc, double zPos, bool type);
 
 private:
-    bool CalculateAngle(qreal &angle, QVector3D p0, QVector3D p1, qreal L1, qreal L2, int jointNO);
-    QVector3D Inverse(QVector3D point);
+    bool calculateAngle(qreal &angle, QVector3D p0, QVector3D p1, qreal L1, qreal L2, int jointNO);
+    QVector3D inverse(QVector3D point);
 
 public:
     QVector<QVector3D> range;                                                           //(min, origine, max)

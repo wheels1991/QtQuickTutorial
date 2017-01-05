@@ -66,7 +66,7 @@ void BluetoothSerial::disconnect()
 void BluetoothSerial::addBlueToothDevicesToList(const QBluetoothDeviceInfo &info)
 {
     bluetoothDeviceInfoList.append(info);
-    QString label = QString("%1 %2").arg(info.address().toString()).arg(info.name());
+    QString label = QString("%1").arg(info.name());//.arg(info.address().toString());
     qDebug() << "New divece: " << label;
     emit addDevice(label);
     emit consoleInfo(QString("Find a new device %1").arg(label));
@@ -79,7 +79,6 @@ void BluetoothSerial::connectToDevice(int index)
     if (index == -1)
         return;
     QBluetoothDeviceInfo info = bluetoothDeviceInfoList[index];
-//    QMessageBox::information(this,tr("Info"),tr("The device is connecting..."));
     socket->connectToService(info.address(), QBluetoothUuid(serviceUuid) ,QIODevice::ReadWrite);
     isConnected = true;
 }

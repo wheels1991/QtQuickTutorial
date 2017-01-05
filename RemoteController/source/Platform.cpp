@@ -159,7 +159,7 @@ Platform::~Platform()
 }
 
 
-QVector3D Platform::Inverse(QVector3D point)
+QVector3D Platform::inverse(QVector3D point)
 {
     QMatrix4x4 Txyz;
     Txyz.translate(x, y, z);                                               /* 此处的顺序跟matlab相反 */
@@ -175,7 +175,7 @@ QVector3D Platform::Inverse(QVector3D point)
     return p;
 }
 
-void Platform::SetPos(double xp, double yp, double zp, double ap, double bp, double cp, Type type)
+void Platform::setPos(double xp, double yp, double zp, double ap, double bp, double cp, Type type)
 {
     stewartType = type;
     x = xp;
@@ -185,19 +185,19 @@ void Platform::SetPos(double xp, double yp, double zp, double ap, double bp, dou
     b = bp;
     c = cp;
     QVector<double> joints(6);
-    GetJoints(joints);
+    getJoints(joints);
 }
 
-void Platform::SetPos(QVector<double> pos, Type type)
+void Platform::setPos(QVector<double> pos, Type type)
 {
-    SetPos(pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], type);
+    setPos(pos[0], pos[1], pos[2], pos[3], pos[4], pos[5], type);
 }
 /*!
  * \brief Platform::GetJoints
  * \return 当前位姿下是否有解，若有解，返回true.
  *         joints:电机转角
  */
-bool Platform::GetJoints(QVector<double> &joints)
+bool Platform::getJoints(QVector<double> &joints)
 {
     if (joints.size() != 6){
         return false;
@@ -212,7 +212,7 @@ bool Platform::GetJoints(QVector<double> &joints)
     topPlatform[4] = rotation120 * topPlatform.at(2);
     topPlatform[5] = rotation120 * topPlatform.at(3);
     for (int index = 0; index < 6; ++index) {
-        topPlatform[index] = Inverse(topPlatform.at(index));                  /* 得到去平台参考点的位置 */
+        topPlatform[index] = inverse(topPlatform.at(index));                  /* 得到去平台参考点的位置 */
     }
     //计算定平台电机轴位置
     bottomPlatform[0] = QVector3D(-bottomInterval / 2, -bottomRadius, 0);
@@ -249,13 +249,40 @@ bool Platform::GetJoints(QVector<double> &joints)
                 rotation_240.rotate(-240, 0, 0, 1);
                 p1 = rotation_240 * topPlatform[index];
             }
-            if (!CalculateAngle(joints[index], p0, p1, qSqrt(qPow(lengthOfSteerWheel,2) + qPow(lengthOfCardan, 2)), lengthOfBar, index)) {
+            if (!calculateAngle(joints[index], p0, p1, qSqrt(qPow(lengthOfSteerWheel,2) + qPow(lengthOfCardan, 2)), lengthOfBar, index)) {
                 return false;
             }
         }
     }
     emit jointsChanged(joints[0], joints[1], joints[2], joints[3],joints[4], joints[5]);
     return true;
+}
+
+void Platform::setParas(double tR, double tI, double bR, double bI, double aL,
+                        double cH, double lL, double xyz, double abc, double zPos, bool type)
+{
+    topRadius = tR;
+    topInterval = tI;
+    bottomRadius = bR;
+    bottomInterval = bI;
+    lengthOfSteerWheel = aL;
+    lengthOfCardan = cH;
+    lengthOfBar = lL;
+    topPlatform = QVector<QVector3D>(6);
+    bottomPlatform = QVector<QVector3D>(6);
+    endOfSteelWheel = QVector<QVector3D>(6);
+    cardanCenter = QVector<QVector3D>(6);
+    motorBar = qSqrt(qPow(lengthOfSteerWheel, 2) + qPow(lengthOfCardan, 2));
+    theta0 = qRadiansToDegrees(qAtan(lengthOfCardan / lengthOfSteerWheel));                 /* 弧度制 */
+    range = QVector<QVector3D>(6);
+    range[0] = QVector3D(-xyz, 0, xyz);
+    range[1] = QVector3D(-xyz, 0, xyz);
+    baseLength = zPos;                                                       //平台基本高度
+    range[2] = QVector3D(baseLength - xyz, baseLength, baseLength + xyz);
+    range[3] = QVector3D(-abc, 0, abc);
+    range[4] = QVector3D(-abc, 0, abc);
+    range[5] = QVector3D(-abc, 0, abc);
+    linkType = type;                                                        //false为外摆结构，true为内摆结构
 }
 
 /*!
@@ -268,7 +295,7 @@ bool Platform::GetJoints(QVector<double> &joints)
  * \param jointNO                           关节编号
  * \return
  */
-bool Platform::CalculateAngle(qreal &angle, QVector3D p0, QVector3D p1, qreal L1, qreal L2, int jointNO)
+bool Platform::calculateAngle(qreal &angle, QVector3D p0, QVector3D p1, qreal L1, qreal L2, int jointNO)
 {
 //    qDebug() << p0 << p1 << L1 << L2;
     QVector3D dp = p1- p0;

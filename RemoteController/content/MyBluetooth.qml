@@ -10,6 +10,7 @@ Item {
     property alias receivedText: receivedText       //属性别名
     property alias bluetoothSerialPort: bluetoothSerialPort
     property alias isConnected: bluetoothSerialPort.connected
+    property alias frequency: frequencySpinBox.value
     function send(data) {
         receivedText.append(data);
         bluetoothSerialPort.send(data);
@@ -39,19 +40,34 @@ Item {
                 text: qsTr("This is to send")
             }
         }
-        //组织蓝牙设备列表
-        GroupBox{
-            title: qsTr("蓝牙列表")
+        RowLayout {
+            //组织蓝牙设备列表
             Layout.fillWidth: true
-            ComboBox {
-                id: bluetoothComboBox
-                anchors.fill: parent
-                model: ListModel {
-                    id: bluetoothList
-        //            ListElement { text: "Banana" }
+            GroupBox{
+                title: qsTr("蓝牙列表")
+                Layout.fillWidth: true
+                ComboBox {
+                    id: bluetoothComboBox
+                    anchors.fill: parent
+                    model: ListModel {
+                        id: bluetoothList
+            //            ListElement { text: "Banana" }
+                    }
+                    onActivated: {
+                        bluetoothSerialPort.connectToDevice(index)
+                    }
                 }
-                onActivated: {
-                    bluetoothSerialPort.connectToDevice(index)
+            }
+            GroupBox {
+                title: qsTr("发送频率(Hz)")
+                width: parent.width / 4
+                SpinBox {
+                    id: frequencySpinBox
+                    anchors.fill: parent
+                    value: 2
+                    stepSize: 1
+                    maximumValue: 50
+                    minimumValue: 1
                 }
             }
         }

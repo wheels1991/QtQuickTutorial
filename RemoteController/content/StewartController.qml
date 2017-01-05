@@ -32,12 +32,21 @@ Item {
         anchors.fill: parent
         Repeater {
             model: ListModel {
+<<<<<<< HEAD
                 ListElement { label: qsTr("X轴: "); maxValue: 30; minValue: -50; v: 0}
                 ListElement { label: qsTr("Y轴: "); maxValue: 30; minValue: -50; v: 0}
                 ListElement { label: qsTr("Z轴: "); maxValue: 120; minValue: 80; v: 96.5}
                 ListElement { label: qsTr("A轴: "); maxValue: 10; minValue: -10; v: 0}
                 ListElement { label: qsTr("B轴: "); maxValue: 10; minValue: -10; v: 0}
                 ListElement { label: qsTr("C轴: "); maxValue: 10; minValue: -10; v: 0}
+=======
+                ListElement { label: qsTr("X轴: "); maxValue: 50; minValue: -50; v: 0}
+                ListElement { label: qsTr("Y轴: "); maxValue: 50; minValue: -50; v: 0}
+                ListElement { label: qsTr("Z轴: "); maxValue: 300; minValue: 260; v: 278}
+                ListElement { label: qsTr("A轴: "); maxValue: 20; minValue: -20; v: 0}
+                ListElement { label: qsTr("B轴: "); maxValue: 20; minValue: -20; v: 0}
+                ListElement { label: qsTr("C轴: "); maxValue: 20; minValue: -20; v: 0}
+>>>>>>> a04cf9f056051e07b1159f7e144dd8bffb0edd34
             }
             Row {
                 Layout.fillWidth: true

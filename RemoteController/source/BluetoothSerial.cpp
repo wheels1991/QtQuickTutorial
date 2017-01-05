@@ -56,6 +56,9 @@ void BluetoothSerial::send(QString data)
 
 void BluetoothSerial::disconnect()
 {
+    if (discoveryAgent->isActive()) {
+        discoveryAgent->stop();
+    }
     socket->disconnectFromService();
     isConnected = false;
 }

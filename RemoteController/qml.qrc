@@ -1,15 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>image/bubble.jpg</file>
-        <file>image/logo.png</file>
-        <file>image/tab_selected.png</file>
-        <file>image/tabs_standard.png</file>
-        <file>image/textinput.png</file>
-        <file>image/button_default.png</file>
-        <file>image/button_pressed.png</file>
         <file>content/MyBluetooth.qml</file>
         <file>content/PoseSensor.qml</file>
         <file>content/StewartController.qml</file>
+        <file>fonts/simsun.ttc</file>
     </qresource>
 </RCC>

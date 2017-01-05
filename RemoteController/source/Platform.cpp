@@ -11,14 +11,14 @@ Platform::Platform(Type type)
     if (stewartType == LinkType) {                                                   //舵机结构
         QFile file(QString("link.csv"));
         if (!file.open(QIODevice::ReadOnly)) {
-            qDebug() << "fail read paras";
-            topRadius = 244.95;
-            topInterval = 100;
-            bottomRadius = 332.54;
-            bottomInterval = 340;
-            lengthOfSteerWheel = 150;
-            lengthOfCardan = 44;
-            lengthOfBar = 368;
+            qDebug() << "fail read link paras";
+            topRadius = 87;
+            topInterval = 15;
+            bottomRadius = 90;
+            bottomInterval = 60;
+            lengthOfSteerWheel = 40;
+            lengthOfCardan = 0;
+            lengthOfBar = 115;
             topPlatform = QVector<QVector3D>(6);
             bottomPlatform = QVector<QVector3D>(6);
             endOfSteelWheel = QVector<QVector3D>(6);
@@ -26,13 +26,13 @@ Platform::Platform(Type type)
             motorBar = qSqrt(qPow(lengthOfSteerWheel, 2) + qPow(lengthOfCardan, 2));
             theta0 = qRadiansToDegrees(qAtan(lengthOfCardan / lengthOfSteerWheel));                 /* 弧度制 */
             range = QVector<QVector3D>(6);
-            range[0] = QVector3D(-200, 0, 200);
-            range[1] = QVector3D(-200, 0, 200);
-            baseLength = 278;                                                       //平台基本高度
-            range[2] = QVector3D(baseLength - 10, baseLength, baseLength + 100);
-            range[3] = QVector3D(-30, 0, 30);
-            range[4] = QVector3D(-30, 0, 30);
-            range[5] = QVector3D(-30, 0, 30);
+            range[0] = QVector3D(-30, 0, 30);
+            range[1] = QVector3D(-30, 0, 30);
+            baseLength = 100;                                                       //平台基本高度
+            range[2] = QVector3D(baseLength - 10, baseLength, baseLength + 30);
+            range[3] = QVector3D(-20, 0, 20);
+            range[4] = QVector3D(-20, 0, 20);
+            range[5] = QVector3D(-20, 0, 20);
             linkType = false;                                                        //false为外摆结构，true为内摆结构
         } else {
             range = QVector<QVector3D>(6);

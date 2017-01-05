@@ -40,7 +40,7 @@ Item {
                 Slider {
                     id: slider
                     width: parent.width * 0.8
-                    stepSize: 0.2
+                    stepSize: 0.5
                     value: switch (index) {
                            case 0 :
                                return 0

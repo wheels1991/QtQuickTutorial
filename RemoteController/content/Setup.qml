@@ -38,12 +38,12 @@ Item {
             Row {
                 Layout.fillWidth: true
                 Label {
-                    width: parent.width * 0.2
+                    width: parent.width * 0.4
                     text: label
                 }
                 SpinBox {
                     id: spinBox
-                    width: parent.width * 0.8
+                    width: parent.width * 0.6
                     value: defaultValue
                     stepSize: 1
                     decimals: 2     //两位小数

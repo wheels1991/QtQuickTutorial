@@ -3,8 +3,7 @@
         <file>main.qml</file>
         <file>content/MyBluetooth.qml</file>
         <file>content/PoseSensor.qml</file>
-        <file>content/StewartController.qml</file>
-        <file>fonts/simsun.ttc</file>
         <file>content/Setup.qml</file>
+        <file>content/StewartController.qml</file>
     </qresource>
 </RCC>

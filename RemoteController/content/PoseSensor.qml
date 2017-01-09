@@ -10,17 +10,20 @@ Item {
     //对于外部想要访问的数据或功能，只能通过property和信号signal或者函数function可以交互
     property double roll: 0
     property double pitch: 0
+    property double yaw: 0
+    property double yaw0: 0
     property bool isEnable: checkBox.checked
-    signal poseChanged(double r, double p)
+    signal poseChanged(double r, double p, double y)
 
     CircularGauge {
+        id: rollCircularGauge
         value: page.roll
         maximumValue: 90
         minimumValue: -90
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        width: (parent.width > parent.height ? parent.height : parent.width) *0.8
+        anchors.bottom: pitchCircularGauge.top
+//            anchors.bottomMargin: 20
+        width: (parent.width > parent.height ? parent.height : parent.width) *0.5
         height: width
         style: circularGaugeStyle
         Text {
@@ -36,12 +39,12 @@ Item {
         }
     }
     CircularGauge {
+        id: pitchCircularGauge
         value: page.pitch
         maximumValue: 90
         minimumValue: -90
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.verticalCenter
-        width: (parent.width > parent.height ? parent.height : parent.width) *0.8
+        anchors.centerIn: parent
+        width: (parent.width > parent.height ? parent.height : parent.width) *0.5
         height: width
         style: circularGaugeStyle
         Text {
@@ -53,6 +56,52 @@ Item {
         Behavior on value {
             NumberAnimation {
                 duration: 100
+            }
+        }
+    }
+    CircularGauge {
+        id: yawCircularGauge
+        value: page.yaw
+        maximumValue: 90
+        minimumValue: -90
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: pitchCircularGauge.bottom
+//            anchors.topMargin: 20
+        width: (parent.width > parent.height ? parent.height : parent.width) *0.5
+        height: width
+        style: circularGaugeStyle
+        Text {
+            text: qsTr("偏航角")
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: parent.height * 0.6
+            color: "Black"
+        }
+        Behavior on value {
+            NumberAnimation {
+                duration: 100
+            }
+        }
+    }
+    Row {
+        width: parent.width
+        anchors.bottom: checkBox.top
+        anchors.bottomMargin: 10
+        height: checkBox.height
+        Label {
+            id: label
+            width: parent.width * 0.3
+            text: qsTr("基准偏航角 ")
+        }
+        Slider {
+            id: slider
+            width: parent.width * 0.7
+            stepSize: 0.5
+            value: 0
+            minimumValue: -180
+            maximumValue: 180
+            onValueChanged: {
+                page.yaw0 = value
+                label.text = qsTr("基准偏航角 ") + value
             }
         }
     }
@@ -84,15 +133,29 @@ Item {
         onReadingChanged: {
             roll = (calcRoll(accel.reading.x, accel.reading.y, accel.reading.z)).toFixed(2)    //toFixed(2)控制小数位置
             pitch = (calcPitch(accel.reading.x, accel.reading.y, accel.reading.z)).toFixed(2)
+            roll = (roll > 20 ? 20 : roll) < -20 ? -20 : (roll > 20 ? 20 : roll)
+            pitch = (pitch > 20 ? 20 : pitch) < -20 ? -20 : (pitch > 20 ? 20 : pitch)
             if (checkBox.checked) {
-                poseChanged(roll, pitch);
+                poseChanged(roll, pitch, yaw)
             }
         }
         function calcPitch(x,y,z) {
-            return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795);
+            return -(Math.atan(y / Math.sqrt(x * x + z * z)) * 57.2957795)
         }
         function calcRoll(x,y,z) {
-             return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795);
+             return -(Math.atan(x / Math.sqrt(y * y + z * z)) * 57.2957795)
+        }
+    }
+    Compass {
+        id: compass
+        active: true
+        dataRate: 100
+        onReadingChanged: {
+            yaw = reading.azimuth - yaw0
+            yaw = (yaw > 20 ? 20 : yaw) < -20 ? -20 : (yaw > 20 ? 20 : yaw)
+            if (checkBox.checked) {
+                poseChanged(roll, pitch, yaw)
+            }
         }
     }
     function degToRad(degrees) {

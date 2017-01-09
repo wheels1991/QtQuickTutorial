@@ -30,7 +30,7 @@ ApplicationWindow {
         }
         Tab {
             title: qsTr("平台")
-            id:tabStewart
+            id:tabStewartController
             sourceComponent: StewartController {}
         }
         Tab {
@@ -49,15 +49,16 @@ ApplicationWindow {
             if (tabPoseSensor.item.isEnable) {
                 console.log("Into tabPose sensor")
                 stewart.setPos(0, 0, tabSetup.item.zCentralPos,
-                               tabPoseSensor.item.roll / 5,
-                               tabPoseSensor.item.pitch / 5, 0);
-            } else if (tabStewart.item.isEnable) {
-                stewart.setPos(tabStewart.item.px,
-                               tabStewart.item.py,
-                               tabStewart.item.pz,
-                               tabStewart.item.pa,
-                               tabStewart.item.pb,
-                               tabStewart.item.pc);
+                               tabPoseSensor.item.roll,
+                               tabPoseSensor.item.pitch,
+                               tabPoseSensor.item.yaw);
+            } else if (tabStewartController.item.isEnable) {
+                stewart.setPos(tabStewartController.item.px,
+                               tabStewartController.item.py,
+                               tabStewartController.item.pz,
+                               tabStewartController.item.pa,
+                               tabStewartController.item.pb,
+                               tabStewartController.item.pc);
             }
         }
     }
@@ -66,10 +67,9 @@ ApplicationWindow {
         target: tabSetup.item
         onParasChanged:{
             stewart.setParas(tR, tI, bR, bI, aL, cH, lL, xyz, abc, zPos, type);
-            tabStewart.item.xyzRange = xyz;
-            tabStewart.item.abcRange = abc
-            tabStewart.item.zCentralPos= zPos;
-
+            tabStewartController.item.xyzRange = xyz;
+            tabStewartController.item.abcRange = abc
+            tabStewartController.item.zCentralPos= zPos;
         }
     }
     //处理平台解算后的数据，将其通过蓝牙进行发送
@@ -110,3 +110,4 @@ ApplicationWindow {
         }
     }
 }
+

@@ -1,6 +1,7 @@
 ﻿import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 //设置界面
 Item {
@@ -34,6 +35,7 @@ Item {
                 ListElement {label: qsTr("XYZ range"); defaultValue: 30}
                 ListElement {label: qsTr("ABC range"); defaultValue: 20}
                 ListElement {label: qsTr("Z centralPos"); defaultValue: 96.5}
+                ListElement {label: qsTr("领航基准角度"); defaultValue: 0}
             }
             Row {
                 Layout.fillWidth: true
@@ -82,11 +84,6 @@ Item {
                             zCentralPos = value
                             break;
                         }
-                        page.parasChanged(topRadius, topInterval,
-                                          bottomRadius, bottomInterval,
-                                          armLength, cardanHeight,
-                                          linkLength, xyzRange,
-                                          abcRange, zCentralPos, linkType);
                     }
                 }
             }
@@ -94,27 +91,41 @@ Item {
         Row {
             Layout.fillWidth: true
             Label {
-                width: parent.width * 0.2
+                width: parent.width * 0.4
                 text: "Type"
             }
-            SpinBox {
-                width: parent.width * 0.8
-                value: 0
-                stepSize: 1
-                maximumValue: 1
-                minimumValue: 0
-                onValueChanged: {
-                    if (value == 0) {
-                        linkType = false;
+            ComboBox {
+                model: ["外摆", "内摆"]
+                width: parent.width * 0.6
+                onCurrentIndexChanged: {
+                    if (currentText == "外摆") {
+                        linkType = false
                     } else {
-                        linkType = true;
+                        linkType = true
                     }
-                    page.parasChanged(topRadius, topInterval,
-                                      bottomRadius, bottomInterval,
-                                      armLength, cardanHeight,
-                                      linkLength, xyzRange,
-                                      abcRange, zCentralPos, linkType);
                 }
+            }
+        }
+        Button {
+            text: qsTr("更新参数")
+            focus: true
+            style: ButtonStyle {
+                background: Rectangle {
+                    implicitWidth: page.width / 5
+                    implicitHeight:implicitWidth / 2
+                    radius: control.height / 4
+                    gradient: Gradient {
+                        GradientStop { position: 0 ; color: control.pressed ? "steelblue" : "lightsteelblue"}
+                        GradientStop { position: 1 ; color: control.pressed ? "steelblue" : "lightsteelblue"}
+                    }
+                }
+            }
+            onClicked: {
+                page.parasChanged(topRadius, topInterval,
+                                  bottomRadius, bottomInterval,
+                                  armLength, cardanHeight,
+                                  linkLength, xyzRange,
+                                  abcRange, zCentralPos, linkType);
             }
         }
     }

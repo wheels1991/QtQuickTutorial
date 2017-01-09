@@ -83,7 +83,7 @@ Item {
                                       case 5:
                                           return -abcRange
                                   }
-                    style: sliderStyle
+//                    style: sliderStyle
                     onValueChanged: {
                         switch (index) {
                             case 0:

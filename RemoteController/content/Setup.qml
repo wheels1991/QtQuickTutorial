@@ -35,7 +35,6 @@ Item {
                 ListElement {label: qsTr("XYZ range"); defaultValue: 30}
                 ListElement {label: qsTr("ABC range"); defaultValue: 20}
                 ListElement {label: qsTr("Z centralPos"); defaultValue: 96.5}
-                ListElement {label: qsTr("领航基准角度"); defaultValue: 0}
             }
             Row {
                 Layout.fillWidth: true
